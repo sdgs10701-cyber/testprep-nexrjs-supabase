@@ -32,7 +32,7 @@ export default function HomePage() {
         setSeries(s);
         setTests(t.filter((x) => !x.deleted));
       })
-      .catch(() => setError("Could not reach the backend API."))
+      .catch((err) => setError(err?.message || "Could not reach Supabase."))
       .finally(() => setLoading(false));
   }, []);
 
@@ -51,7 +51,11 @@ export default function HomePage() {
         {loading && <p className="text-slate-500">Loading test series…</p>}
         {error && (
           <p className="text-red-600 bg-red-50 border border-red-200 rounded-md px-4 py-3">
-            {error} Set <code>NEXT_PUBLIC_API_BASE</code> to your backend URL.
+            {error}
+            <br />
+            Check that <code>NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
+            <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> are set correctly and
+            that the deployment was rebuilt after setting them.
           </p>
         )}
 
